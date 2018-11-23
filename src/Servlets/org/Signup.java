@@ -1,9 +1,10 @@
 package Servlets.org;
 
 import java.io.IOException;
+//import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.stream.Collectors;
+//import java.util.Objects;
+//import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import utilidades.DBConnection;
@@ -39,9 +39,9 @@ public class Signup extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		PropertiesReader p = new PropertiesReader("config.properties");
-		String user = p.getValues("pguser");
-		System.out.println("Hola" + user);
+		PropertiesReader p = new PropertiesReader("config.properties"); //Lo mismo que en DBConnection
+		String user = p.reading("pguser");
+		System.out.println("Hola " + user);
 	}
 
 	/**
@@ -49,12 +49,22 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		md5hasher hash = null;
+		
 		try {
-			JSONObject reqBody = new JSONObject(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
+			JSONObject resJson = new JSONObject();
+			//JSONObject reqBody = new JSONObject(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
 			ArrayList<Object> campos = new ArrayList<Object>();
 			String pass2 = null;
+			md5hasher hash = null;
 			DBConnection db = new DBConnection();
+			
+			
+			String user = request.getParameter("user").trim();
+			String pass = request.getParameter("password").trim();
+			String name = request.getParameter("name").trim();
+			String date = request.getParameter("date").trim();
+			String email = request.getParameter("email").trim();
+			
 			if(db.connect()) {
 				System.out.println("Me conecte mami");
 			}else {
@@ -62,17 +72,21 @@ public class Signup extends HttpServlet {
 			}
 			try {
 				hash = md5hasher.getInstance();
-				pass2 = hash.hashString(reqBody.getString("password"));
+				pass2 = hash.hashString(pass);
 				campos.add(pass2);
-				campos.add(reqBody.getString("username"));
-				campos.add(reqBody.getString("name"));
-				campos.add(reqBody.getString("date"));
-				campos.add(reqBody.getString("email"));
+				campos.add(user);
+				campos.add(name);
+				campos.add(date);
+				campos.add(email);
 				String query = "register";
-				if(db.insert(campos, query))
+				if(db.insert(campos, query)) {
 					System.out.println("Listo mami");
-				else
+					resJson.put("status", 200).put("res", "session stored");
+				}else {
 					System.out.println("Lo siento mami");
+					resJson.put("status", 404).put("res", "something went wrong");
+				}
+					
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

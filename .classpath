@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_131">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -15,5 +15,8 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/java-json.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-42.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/Java-projects/Java libraries/jackson-annotations-2.9.0.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/Java-projects/Java libraries/jackson-core-2.9.7.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/Java-projects/Java libraries/jackson-databind-2.9.7.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

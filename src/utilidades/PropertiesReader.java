@@ -3,7 +3,6 @@ package utilidades;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.util.Properties;
 
 public class PropertiesReader {
@@ -15,9 +14,9 @@ public class PropertiesReader {
 		this.filename = filename;
 		this.p = new Properties();
 		try {
-			String directorioRaiz = System.getProperty("user.dir");
-			String path = directorioRaiz + "/" + this.filename;
-			System.out.println(path);
+			String directorioRaiz = "C:\\Dev\\Git-repositories\\MangaReaderLocal\\MangaReader\\src\\utilidades";
+			String path = directorioRaiz + "\\" + this.filename;
+			//System.out.println(path);
 			p.load(new FileReader(path));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -28,7 +27,7 @@ public class PropertiesReader {
 		}
 	}
 	
-	public String getValues(String var) {
+	public String reading(String var) {
 		String value= "";
 		try {
 			value = this.p.getProperty(var);
