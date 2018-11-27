@@ -14,7 +14,7 @@ public class PropertiesReader {
 		this.filename = filename;
 		this.p = new Properties();
 		try {
-			String directorioRaiz = "C:\\Dev\\Git-repositories\\MangaReaderLocal\\MangaReader\\src\\utilidades";
+			String directorioRaiz = "C:\\Users\\FABIOLA\\Documents\\11voTrimestreFab\\Develop\\apache-tomcat-9.0.8\\webapps\\MangaReaderRA\\src\\utilidades";
 			String path = directorioRaiz + "\\" + this.filename;
 			//System.out.println(path);
 			p.load(new FileReader(path));
