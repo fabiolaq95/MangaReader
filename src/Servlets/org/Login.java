@@ -11,12 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONException;
+//import org.json.JSONException;
 import org.json.JSONObject;
 
-//import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 
-//import models.Response;
+import models.Response;
+import models.UserClass;
 import utilidades.DBConnection;
 import utilidades.md5hasher;
 
@@ -42,22 +43,19 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		//ObjectMapper objMapper = new ObjectMapper();
-		JSONObject json = new JSONObject(); 
-		
+		ObjectMapper objMapper = new ObjectMapper();
+//		UserClass us = objMapper.readValue(request.getReader(), UserClass.class);
+		UserClass us = objMapper.readValue("{\"user\":\"hue\",\"password\":\"masterkey\"}", UserClass.class);
+		//JSONObject json = new JSONObject(); 
+		System.out.println(us.getPassword());
 		if(session.isNew()) {
 			if(session.getAttribute("username") == null){
 				System.out.println(session.getAttribute("usuario"));
 				System.out.println("sesion no iniciada");
-//				Response<?> resp = new Response<>();
-//				resp.setMessage("session not started");
-//				resp.setStatus(403);
-				try {
-					json.put("status", "403").put("res", "session not started").put("value", "");
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Response<?> resp = new Response<>();
+				resp.setMessage("session not started");
+				resp.setStatus(403);
+				//json.put("status", "403").put("res", "session not started").put("value", "");
 				session.invalidate();
 				}
 			else if(session.getAttribute("username") != null) {
@@ -65,21 +63,28 @@ public class Login extends HttpServlet {
 				System.out.println("Sesion iniciada");
 				System.out.println("usuario: "+session.getAttribute("username"));
 				try {
-//					Response<?> resp = new Response<>();
-//					resp.setMessage("session not started");
-//					resp.setStatus(200);
-//					String res = objMapper.writeValueAsString(resp);
-//					System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resp));
-//					response.getWriter().print(res);
-					json.put("status", "200").put("type", session.getAttribute("user_type")).put("username", session.getAttribute("username"));
-				} catch (JSONException e) {
+					Response<UserClass> resp = new Response<>();
+					resp.setMessage("session not started");
+					resp.setStatus(200);
+					String res = objMapper.writeValueAsString(resp);
+					System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resp));
+					response.getWriter().print(res);
+					//json.put("status", "200").put("type", session.getAttribute("user_type")).put("username", session.getAttribute("username"));
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			
-			out.print(json);
+			//out.print(json);
 		}
+		Response<UserClass> resp = new Response<>();
+		resp.setMessage("session not started");
+		resp.setStatus(200);
+		resp.setData(us);
+		String res = objMapper.writeValueAsString(resp);
+		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resp));
+		response.getWriter().print(res);
 	}
 
 	/**
